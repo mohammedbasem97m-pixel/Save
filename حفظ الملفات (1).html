@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حفظ الملفات</title>
+    <!-- تحميل Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Tajawal', 'Cairo', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- تحميل خطوط عربية أنيقة (Tajawal & Cairo) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* أنيميشن رفرفة العلم العراقي المستمرة والواقعية */
+        .iraq-flag-wrapper {
+            perspective: 600px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .iraq-flag-pole {
+            width: 4px;
+            height: 46px;
+            background: linear-gradient(to bottom, #e2e8f0, #94a3b8, #475569);
+            border-radius: 999px;
+            margin-left: 3px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .iraq-flag-pole::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -2px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #fde047, #ca8a04);
+        }
+
+        .iraq-flag {
+            width: 64px;
+            height: 42px;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            transform-origin: right center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            animation: flagWave 2.4s ease-in-out infinite;
+        }
+
+        /* طبقة تموجات الظل والإضاءة لمحاكاة القماش المتحرك */
+        .iraq-flag::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                105deg,
+                rgba(255, 255, 255, 0.28) 0%,
+                rgba(0, 0, 0, 0.14) 28%,
+                rgba(255, 255, 255, 0.25) 55%,
+                rgba(0, 0, 0, 0.16) 80%,
+                rgba(255, 255, 255, 0.2) 100%
+            );
+            background-size: 200% 100%;
+            animation: flagShimmer 2.4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes flagWave {
+            0%, 100% {
+                transform: rotateY(0deg) skewY(0deg) scaleX(1);
+            }
+            25% {
+                transform: rotateY(-12deg) skewY(2.2deg) scaleX(0.97);
+            }
+            50% {
+                transform: rotateY(8deg) skewY(-1.8deg) scaleX(1.01);
+            }
+            75% {
+                transform: rotateY(-9deg) skewY(1.5deg) scaleX(0.98);
+            }
+        }
+
+        @keyframes flagShimmer {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* شريط تمرير أنيق */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #93c5fd;
+            border-radius: 9999px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="bg-sky-50/70 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col selection:bg-sky-200 selection:text-sky-900">
+
+    <!-- الشريط العلوي (الهيدر): يتوسطه فقط 'حفظ الملفات' وعلى يمينه العلم العراقي المتحرك دون أي كتابات إضافية -->
+    <header class="sticky top-0 z-30 bg-gradient-to-l from-sky-200 via-sky-100 to-sky-200 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 border-b border-sky-300/80 dark:border-slate-700 shadow-sm backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 h-20 relative flex items-center justify-center">
+            
+            <!-- المنتصف: العلم العراقي على اليمين وبجانبه عبارة حفظ الملفات -->
+            <div class="flex items-center justify-center gap-3.5 select-none">
+                <!-- العلم العراقي المتحرك على جهة اليمين -->
+                <div class="iraq-flag-wrapper" aria-hidden="true">
+                    <div class="iraq-flag-pole"></div>
+                    <div class="iraq-flag border border-black/10 dark:border-white/10">
+                        <svg viewBox="0 0 900 600" class="w-full h-full object-cover" xmlns="http://www.w3.org/2000/svg">
+                            <!-- الشريط الأحمر العلوي -->
+                            <rect width="900" height="200" y="0" fill="#CE1126"/>
+                            <!-- الشريط الأبيض الأوسط -->
+                            <rect width="900" height="200" y="200" fill="#FFFFFF"/>
+                            <!-- الشريط الأسود السفلي -->
+                            <rect width="900" height="200" y="400" fill="#000000"/>
+                            <!-- عبارة الله أكبر بالخط الكوفي الأخضر -->
+                            <text x="450" y="342" fill="#007A3D" font-family="'Cairo', 'Tajawal', sans-serif" font-weight="800" font-size="112" text-anchor="middle">الله أكبر</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- عبارة حفظ الملفات -->
+                <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-sky-950 dark:text-sky-100 drop-shadow-sm">
+                    حفظ الملفات
+                </h1>
+            </div>
+
+            <!-- زر تبديل الوضع الليلي/النهاري (أيقونة فقط بدون كتابة في الهيدر) -->
+            <div class="absolute left-4 flex items-center gap-2">
+                <button id="themeToggleBtn" type="button" aria-label="تبديل المظهر" class="p-2.5 rounded-2xl bg-white/80 hover:bg-white dark:bg-slate-800 dark:hover:bg-slate-700 text-sky-800 dark:text-amber-300 border border-sky-300/70 dark:border-slate-600 shadow-sm transition-all active:scale-95">
+                    <!-- أيقونة الشمس للوضع الليلي -->
+                    <svg id="sunIcon" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                    <!-- أيقونة القمر للوضع النهاري -->
+                    <svg id="moonIcon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- مساحة العمل الرئيسية -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-6 sm:py-8">
+        
+        <!-- شريط الأدوات: البحث السريع + العداد + زر إنشاء مجلد جديد -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 mb-6 border border-sky-200/80 dark:border-slate-800 shadow-sm flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+            
+            <!-- شريط البحث السريع -->
+            <div class="relative flex-1 max-w-md">
+                <span class="absolute inset-y-0 right-3.5 flex items-center text-sky-500 dark:text-slate-400 pointer-events-none">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 103.5 10.5a7.5 7.5 0 0013.15 6.15z"></path>
+                    </svg>
+                </span>
+                <input type="text" id="searchInput" placeholder="ابحث عن اسم مجلد أو ملف..." class="w-full pr-11 pl-4 py-2.5 rounded-xl bg-sky-50/70 dark:bg-slate-800 border border-sky-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all">
+            </div>
+
+            <!-- العداد وزر إنشاء مجلد جديد -->
+            <div class="flex flex-wrap items-center justify-between md:justify-end gap-3">
+                <div class="px-3.5 py-2 rounded-xl bg-sky-50 dark:bg-slate-800 border border-sky-200/80 dark:border-slate-700 text-xs sm:text-sm font-bold text-sky-800 dark:text-sky-300">
+                    المجلدات: <span id="foldersCounter">0</span> / 200
+                </div>
+
+                <button id="openCreateModalBtn" type="button" class="px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-sm font-bold shadow-sm hover:shadow transition-all flex items-center gap-2 active:scale-95">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    <span>إنشاء مجلد جديد</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- شبكة المجلدات -->
+        <div id="foldersGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            <!-- يتم توليد بطاقات المجلدات ديناميكياً هنا -->
+        </div>
+
+        <!-- حالة البداية النظيفة (تظهر عندما لا توجد مجلدات بعد) -->
+        <div id="emptyInitialState" class="hidden text-center py-16 px-6 bg-white dark:bg-slate-900 rounded-3xl border-2 border-dashed border-sky-200 dark:border-slate-800 shadow-sm">
+            <div class="w-20 h-20 mx-auto mb-4 rounded-2xl bg-sky-100 dark:bg-slate-800 text-sky-600 dark:text-sky-400 flex items-center justify-center">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
+                </svg>
+            </div>
+            <h2 class="text-xl font-extrabold text-slate-800 dark:text-slate-100 mb-2">لا توجد مجلدات حالياً</h2>
+            <p class="text-sm text-slate-500 dark:text-slate-400 max-w-md mx-auto mb-6">
+                أنشئ مجلدك الأول الآن لرفع وحفظ ملفات Word و Excel و PDF وتنظيم تواريخها وطباعتها وتنزيلها بسهولة (حتى 5 ملفات داخل كل مجلد).
+            </p>
+            <button type="button" onclick="document.getElementById('openCreateModalBtn').click()" class="px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-sm font-bold shadow-md hover:shadow-lg transition-all inline-flex items-center gap-2 active:scale-95">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
+                </svg>
+                <span>إنشاء مجلد جديد</span>
+            </button>
+        </div>
+
+        <!-- حالة عدم وجود نتائج بحث -->
+        <div id="emptySearchState" class="hidden text-center py-14 px-4 bg-white dark:bg-slate-900 rounded-2xl border border-sky-200 dark:border-slate-800">
+            <p class="text-base font-bold text-slate-600 dark:text-slate-300">لا توجد مجلدات أو ملفات مطابقة لعبارة البحث.</p>
+        </div>
+    </main>
+
+    <!-- نافذة إنشاء مجلد جديد -->
+    <div id="createFolderModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/60 backdrop-blur-sm p-4">
+        <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl p-6 border border-sky-200 dark:border-slate-700 shadow-2xl transform transition-all">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="p-2.5 rounded-xl bg-sky-100 dark:bg-sky-900/50 text-sky-600 dark:text-sky-400">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-extrabold text-slate-800 dark:text-slate-100">إنشاء مجلد جديد</h3>
+            </div>
+            
+            <label for="newFolderNameInput" class="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1.5">اسم المجلد</label>
+            <input type="text" id="newFolderNameInput" placeholder="مثال: كتب رسمية 2026، تقارير مالية..." class="w-full px-4 py-3 rounded-xl bg-sky-50/70 dark:bg-slate-800 border border-sky-200 dark:border-slate-700 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-sky-500 mb-5">
+            
+            <div class="flex items-center justify-end gap-2.5">
+                <button id="cancelCreateFolderBtn" type="button" class="px-4 py-2.5 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                    إلغاء
+                </button>
+                <button id="confirmCreateFolderBtn" type="button" class="px-5 py-2.5 rounded-xl text-sm font-bold bg-sky-600 hover:bg-sky-700 text-white shadow-sm transition-all active:scale-95">
+                    إنشاء وفتح المجلد
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة إدارة محتويات المجلد (تعديل الاسم + رفع حتى 5 ملفات + تنزيل وطباعة وتاريخ) -->
+    <div id="folderDetailsModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/65 backdrop-blur-sm p-3 sm:p-5 overflow-y-auto">
+        <div class="bg-white dark:bg-slate-900 w-full max-w-5xl rounded-3xl border border-sky-200 dark:border-slate-700 shadow-2xl overflow-hidden my-auto flex flex-col max-h-[92vh]">
+            
+            <!-- رأس نافذة المجلد -->
+            <div class="bg-sky-50 dark:bg-slate-800/90 px-4 sm:px-6 py-4 border-b border-sky-200/80 dark:border-slate-700 flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-2.5 flex-1 min-w-[240px]">
+                    <div class="p-2 rounded-xl bg-sky-600 text-white shrink-0">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/>
+                        </svg>
+                    </div>
+                    <input type="text" id="editFolderNameInput" class="w-full max-w-xs px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-sky-300 dark:border-slate-600 text-sm sm:text-base font-extrabold focus:outline-none focus:ring-2 focus:ring-sky-500">
+                    <button id="saveFolderNameBtn" type="button" class="px-3 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold transition-colors shrink-0">
+                        حفظ الاسم
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button id="deleteFolderBtn" type="button" class="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/60 dark:hover:bg-rose-900/60 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800 text-xs font-bold transition-colors">
+                        حذف المجلد
+                    </button>
+                    <button id="closeDetailsModalBtn" type="button" aria-label="إغلاق" class="p-2 rounded-xl text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white hover:bg-sky-100 dark:hover:bg-slate-700 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- محتوى النافذة القابل للتمرير -->
+            <div class="p-4 sm:p-6 overflow-y-auto space-y-5 flex-1">
+                
+                <!-- قسم رفع الملفات (Word, Excel, PDF) -->
+                <div id="uploadDropzone" class="border-2 border-dashed border-sky-300 dark:border-slate-700 hover:border-sky-500 dark:hover:border-sky-500 rounded-2xl p-5 bg-sky-50/50 dark:bg-slate-800/40 text-center transition-all">
+                    <input type="file" id="fileInput" multiple accept=".doc,.docx,.xls,.xlsx,.pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/pdf" class="hidden">
+                    
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="flex items-center gap-3 text-right">
+                            <div class="w-12 h-12 rounded-2xl bg-sky-100 dark:bg-slate-800 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="text-sm sm:text-base font-extrabold text-slate-800 dark:text-slate-100">إضافة ملفات إلى المجلد</h4>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                                    الصيغ المدعومة: <span class="font-bold text-blue-600 dark:text-blue-400">Word</span> • <span class="font-bold text-emerald-600 dark:text-emerald-400">Excel</span> • <span class="font-bold text-rose-600 dark:text-rose-400">PDF</span> (الحد الأقصى 5 ملفات)
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3 shrink-0">
+                            <span id="modalFilesCountBadge" class="text-xs font-extrabold px-3 py-1.5 rounded-xl bg-sky-100 dark:bg-slate-800 text-sky-800 dark:text-sky-300">
+                                0 / 5 ملفات
+                            </span>
+                            <button id="selectFilesBtn" type="button" class="px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 disabled:bg-slate-400 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-bold shadow-sm transition-all active:scale-95">
+                                اختيار ملفات
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- قائمة الملفات المحفوظة داخل المجلد -->
+                <div id="filesListContainer" class="space-y-3.5">
+                    <!-- يتم عرض الملفات هنا -->
+                </div>
+
+                <!-- رسالة عندما يكون المجلد فارغاً من الملفات -->
+                <div id="emptyFolderFilesMsg" class="text-center py-10 px-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                    <p class="text-sm font-bold text-slate-500 dark:text-slate-400">هذا المجلد فارغ حالياً. اضغط على "اختيار ملفات" لإضافة ملفات Word أو Excel أو PDF.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- رسالة تأكيد مخصصة لحذف المجلد (بديلة عن confirm) -->
+    <div id="confirmDeleteModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/65 backdrop-blur-sm p-4">
+        <div class="bg-white dark:bg-slate-900 w-full max-w-sm rounded-2xl p-6 border border-rose-200 dark:border-slate-700 shadow-2xl text-center">
+            <div class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-rose-100 dark:bg-rose-950/70 text-rose-600 dark:text-rose-400 flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                </svg>
+            </div>
+            <h4 class="text-base font-extrabold text-slate-800 dark:text-slate-100 mb-1">تأكيد حذف المجلد</h4>
+            <p id="confirmDeleteText" class="text-xs text-slate-500 dark:text-slate-400 mb-5">هل أنت متأكد من حذف هذا المجلد وجميع الملفات بداخله؟</p>
+            <div class="flex items-center justify-center gap-2.5">
+                <button id="cancelDeleteBtn" type="button" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                    تراجع
+                </button>
+                <button id="executeDeleteBtn" type="button" class="px-4 py-2 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white transition-colors">
+                    نعم، احذف المجلد
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- إطار مخفي مخصص للطباعة المباشرة بدون حظر النوافذ المنبثقة -->
+    <iframe id="directPrintFrame" title="إطار الطباعة المباشرة" style="position:fixed;right:0;bottom:0;width:0;height:0;border:0;visibility:hidden;"></iframe>
+
+    <!-- إشعار منبثق (Toast) -->
+    <div id="toastContainer" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 pointer-events-none transition-all duration-300 opacity-0 translate-y-4">
+        <div id="toastBox" class="px-5 py-3 rounded-2xl bg-slate-900 dark:bg-sky-600 text-white text-xs sm:text-sm font-bold shadow-xl flex items-center gap-2">
+            <span id="toastMessage">تم الحفظ بنجاح</span>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * تطبيق "حفظ الملفات"
+         * تخزين محلي مزدوج (IndexedDB مع fallback تلقائي إلى localStorage)
+         * مع طباعة وتنزيل مباشر معزز لكل ملف
+         */
+        const DB_NAME = 'IraqHifthAlMalafatDB';
+        const DB_VERSION = 1;
+        const STORE_NAME = 'folders';
+        const LS_KEY = 'iraq_hifth_almalafat_backup_v1';
+        const THEME_KEY = 'iraq_hifth_theme';
+        const MAX_FOLDERS = 200;
+        const MAX_FILES_PER_FOLDER = 5;
+
+        let db = null;
+        let useLocalStorageOnly = false;
+        let folders = [];
+        let activeFolderId = null;
+        let pendingDeleteFolderId = null;
+        let activePrintBlobUrl = null;
+
+        /* ==================== 1. نظام الإشعارات (Toast) ==================== */
+        let toastTimer = null;
+        function showToast(message, isError = false) {
+            const container = document.getElementById('toastContainer');
+            const box = document.getElementById('toastBox');
+            const msgEl = document.getElementById('toastMessage');
+
+            msgEl.textContent = message;
+            if (isError) {
+                box.className = 'px-5 py-3 rounded-2xl bg-rose-600 text-white text-xs sm:text-sm font-bold shadow-xl flex items-center gap-2';
+            } else {
+                box.className = 'px-5 py-3 rounded-2xl bg-slate-900 dark:bg-sky-600 text-white text-xs sm:text-sm font-bold shadow-xl flex items-center gap-2';
+            }
+
+            container.classList.remove('opacity-0', 'translate-y-4');
+            container.classList.add('opacity-100', 'translate-y-0');
+
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                container.classList.remove('opacity-100', 'translate-y-0');
+                container.classList.add('opacity-0', 'translate-y-4');
+            }, 3000);
+        }
+
+        /* ==================== 2. إدارة الوضع الليلي والنهاري ==================== */
+        function initTheme() {
+            const savedTheme = localStorage.getItem(THEME_KEY);
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+
+            document.getElementById('themeToggleBtn').addEventListener('click', () => {
+                const isDark = document.documentElement.classList.toggle('dark');
+                localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light');
+            });
+        }
+
+        /* ==================== 3. نظام التخزين المزدوج (IndexedDB + localStorage) ==================== */
+        function initStorage() {
+            return new Promise((resolve) => {
+                try {
+                    if (!window.indexedDB) {
+                        useLocalStorageOnly = true;
+                        resolve();
+                        return;
+                    }
+                    const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+                    request.onupgradeneeded = (e) => {
+                        const database = e.target.result;
+                        if (!database.objectStoreNames.contains(STORE_NAME)) {
+                            database.createObjectStore(STORE_NAME, { keyPath: 'id' });
+                        }
+                    };
+
+                    request.onsuccess = (e) => {
+                        db = e.target.result;
+                        useLocalStorageOnly = false;
+                        resolve();
+                    };
+
+                    request.onerror = () => {
+                        useLocalStorageOnly = true;
+                        resolve();
+                    };
+                } catch (err) {
+                    useLocalStorageOnly = true;
+                    resolve();
+                }
+            });
+        }
+
+        // مزامنة نسخة احتياطية خفيفة في localStorage لضمان عمل التطبيق في كل البيئات
+        function syncToLocalStorage() {
+            try {
+                localStorage.setItem(LS_KEY, JSON.stringify(folders));
+            } catch (e) {
+                // في حال امتلاء سعة localStorage بالملفات الكبيرة، نعتمد على IndexedDB
+            }
+        }
+
+        function loadFromLocalStorage() {
+            try {
+                const raw = localStorage.getItem(LS_KEY);
+                return raw ? JSON.parse(raw) : [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        async function loadAllFolders() {
+            if (useLocalStorageOnly || !db) {
+                folders = loadFromLocalStorage();
+                return;
+            }
+
+            return new Promise((resolve) => {
+                try {
+                    const tx = db.transaction([STORE_NAME], 'readonly');
+                    const store = tx.objectStore(STORE_NAME);
+                    const req = store.getAll();
+
+                    req.onsuccess = () => {
+                        const res = req.result || [];
+                        if (res.length > 0) {
+                            folders = res.sort((a, b) => a.id - b.id);
+                        } else {
+                            // التحقق من وجود بيانات سابقة في localStorage
+                            const lsData = loadFromLocalStorage();
+                            folders = lsData.sort((a, b) => a.id - b.id);
+                        }
+                        resolve();
+                    };
+
+                    req.onerror = () => {
+                        useLocalStorageOnly = true;
+                        folders = loadFromLocalStorage();
+                        resolve();
+                    };
+                } catch (err) {
+                    useLocalStorageOnly = true;
+                    folders = loadFromLocalStorage();
+                    resolve();
+                }
+            });
+        }
+
+        async function persistFolder(folder) {
+            const idx = folders.findIndex(f => f.id === folder.id);
+            if (idx > -1) {
+                folders[idx] = folder;
+            } else {
+                folders.push(folder);
+            }
+
+            syncToLocalStorage();
+
+            if (useLocalStorageOnly || !db) return;
+
+            return new Promise((resolve) => {
+                try {
+                    const tx = db.transaction([STORE_NAME], 'readwrite');
+                    const store = tx.objectStore(STORE_NAME);
+                    store.put(folder);
+                    tx.oncomplete = () => resolve();
+                    tx.onerror = () => {
+                        useLocalStorageOnly = true;
+                        resolve();
+                    };
+                } catch (err) {
+                    useLocalStorageOnly = true;
+                    resolve();
+                }
+            });
+        }
+
+        async function removeFolderFromStorage(folderId) {
+            folders = folders.filter(f => f.id !== folderId);
+            syncToLocalStorage();
+
+            if (useLocalStorageOnly || !db) return;
+
+            return new Promise((resolve) => {
+                try {
+                    const tx = db.transaction([STORE_NAME], 'readwrite');
+                    const store = tx.objectStore(STORE_NAME);
+                    store.delete(folderId);
+                    tx.oncomplete = () => resolve();
+                    tx.onerror = () => resolve();
+                } catch (err) {
+                    resolve();
+                }
+            });
+        }
+
+        /* ==================== 4. أدوات مساعدة للملفات ==================== */
+        function readFileAsDataURL(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = () => reject(reader.error);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function dataURLToBlob(dataUrl, fallbackMime = 'application/octet-stream') {
+            const parts = dataUrl.split(',');
+            const mimeMatch = parts[0].match(/:(.*?);/);
+            const mime = mimeMatch ? mimeMatch[1] : fallbackMime;
+            const bstr = atob(parts[1]);
+            let n = bstr.length;
+            const u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new Blob([u8arr], { type: mime });
+        }
+
+        function getFileTypeMeta(fileName) {
+            const ext = fileName.split('.').pop().toLowerCase();
+            if (ext === 'pdf') {
+                return {
+                    ext: 'pdf',
+                    label: 'PDF',
+                    fullLabel: 'مستند PDF محمول',
+                    badgeClass: 'bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300 border-rose-200 dark:border-rose-800',
+                    iconColor: 'text-rose-600 dark:text-rose-400'
+                };
+            }
+            if (ext === 'doc' || ext === 'docx') {
+                return {
+                    ext: ext,
+                    label: 'WORD',
+                    fullLabel: 'مستند مايكروسوفت وورد (Microsoft Word)',
+                    badgeClass: 'bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300 border-blue-200 dark:border-blue-800',
+                    iconColor: 'text-blue-600 dark:text-blue-400'
+                };
+            }
+            if (ext === 'xls' || ext === 'xlsx') {
+                return {
+                    ext: ext,
+                    label: 'EXCEL',
+                    fullLabel: 'جدول بيانات مايكروسوفت إكسل (Microsoft Excel)',
+                    badgeClass: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800',
+                    iconColor: 'text-emerald-600 dark:text-emerald-400'
+                };
+            }
+            return null;
+        }
+
+        function formatFileSize(bytes) {
+            if (!bytes) return '0 KB';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+        }
+
+        function getTodayDateString() {
+            const d = new Date();
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function escapeHTML(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        /* ==================== 5. عرض شبكة المجلدات ==================== */
+        function renderFoldersGrid() {
+            const grid = document.getElementById('foldersGrid');
+            const emptyInitial = document.getElementById('emptyInitialState');
+            const emptySearch = document.getElementById('emptySearchState');
+            const counterEl = document.getElementById('foldersCounter');
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+
+            counterEl.textContent = folders.length;
+
+            if (folders.length === 0) {
+                grid.innerHTML = '';
+                emptySearch.classList.add('hidden');
+                emptyInitial.classList.remove('hidden');
+                return;
+            }
+
+            emptyInitial.classList.add('hidden');
+
+            const filtered = folders.filter(folder => {
+                if (!query) return true;
+                const matchName = folder.name.toLowerCase().includes(query);
+                const matchFile = (folder.files || []).some(f => f.name.toLowerCase().includes(query));
+                return matchName || matchFile;
+            });
+
+            grid.innerHTML = '';
+
+            if (filtered.length === 0) {
+                emptySearch.classList.remove('hidden');
+                return;
+            }
+
+            emptySearch.classList.add('hidden');
+
+            const fragment = document.createDocumentFragment();
+
+            filtered.forEach(folder => {
+                const count = (folder.files || []).length;
+                const hasFiles = count > 0;
+
+                const card = document.createElement('div');
+                card.className = `group bg-white dark:bg-slate-900 rounded-2xl p-4 border transition-all duration-200 cursor-pointer flex flex-col justify-between hover:-translate-y-1 hover:shadow-md ${
+                    hasFiles
+                    ? 'border-sky-400 dark:border-sky-600 shadow-sm'
+                    : 'border-sky-200/80 dark:border-slate-800 hover:border-sky-400 dark:hover:border-slate-600'
+                }`;
+                card.onclick = () => openFolderDetails(folder.id);
+
+                // نقاط مؤشر الملفات الخمسة
+                let dots = '';
+                for (let i = 0; i < MAX_FILES_PER_FOLDER; i++) {
+                    dots += `<span class="w-2 h-2 rounded-full ${i < count ? 'bg-sky-500' : 'bg-slate-200 dark:bg-slate-700'}"></span>`;
+                }
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="p-2.5 rounded-xl ${hasFiles ? 'bg-sky-600 text-white' : 'bg-sky-100 dark:bg-slate-800 text-sky-600 dark:text-sky-400'} group-hover:scale-105 transition-transform">
+                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/>
+                            </svg>
+                        </div>
+
+                        <div class="flex items-center gap-1">
+                            <span class="text-xs font-extrabold px-2.5 py-1 rounded-lg ${hasFiles ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'}">
+                                ${count} / 5
+                            </span>
+                            <button type="button" onclick="event.stopPropagation(); askDeleteFolder(${folder.id})" class="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/60 transition-colors" title="حذف المجلد">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="font-extrabold text-base text-slate-800 dark:text-slate-100 truncate mb-2.5" title="${escapeHTML(folder.name)}">
+                            ${escapeHTML(folder.name)}
+                        </h3>
+                        <div class="flex items-center justify-between pt-2.5 border-t border-slate-100 dark:border-slate-800">
+                            <div class="flex items-center gap-1">${dots}</div>
+                            <span class="text-xs font-bold text-sky-600 dark:text-sky-400 group-hover:underline">فتح المجلد</span>
+                        </div>
+                    </div>
+                `;
+
+                fragment.appendChild(card);
+            });
+
+            grid.appendChild(fragment);
+        }
+
+        /* ==================== 6. إدارة نافذة المجلد والملفات ==================== */
+        function openFolderDetails(folderId) {
+            const folder = folders.find(f => f.id === folderId);
+            if (!folder) return;
+
+            activeFolderId = folderId;
+            document.getElementById('editFolderNameInput').value = folder.name;
+            renderFolderFiles(folder);
+
+            const modal = document.getElementById('folderDetailsModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeFolderDetails() {
+            activeFolderId = null;
+            const modal = document.getElementById('folderDetailsModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            renderFoldersGrid();
+        }
+
+        function renderFolderFiles(folder) {
+            const container = document.getElementById('filesListContainer');
+            const emptyMsg = document.getElementById('emptyFolderFilesMsg');
+            const badge = document.getElementById('modalFilesCountBadge');
+            const selectBtn = document.getElementById('selectFilesBtn');
+
+            const files = folder.files || [];
+            badge.textContent = `${files.length} / 5 ملفات`;
+            selectBtn.disabled = files.length >= MAX_FILES_PER_FOLDER;
+
+            container.innerHTML = '';
+
+            if (files.length === 0) {
+                emptyMsg.classList.remove('hidden');
+                return;
+            }
+
+            emptyMsg.classList.add('hidden');
+
+            files.forEach((file, index) => {
+                const meta = getFileTypeMeta(file.name) || {
+                    ext: 'file',
+                    label: 'FILE',
+                    fullLabel: 'ملف مرفق',
+                    badgeClass: 'bg-slate-100 text-slate-700 border-slate-200',
+                    iconColor: 'text-slate-600'
+                };
+
+                const row = document.createElement('div');
+                row.className = 'p-4 rounded-2xl bg-sky-50/50 dark:bg-slate-800/75 border border-sky-200/90 dark:border-slate-700 hover:border-sky-400 dark:hover:border-sky-600 shadow-sm flex flex-col xl:flex-row xl:items-center justify-between gap-4 transition-all';
+
+                row.innerHTML = `
+                    <!-- معلومات الملف -->
+                    <div class="flex items-center gap-3.5 min-w-0 flex-1">
+                        <div class="w-12 h-12 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-700 shadow-xs flex items-center justify-center shrink-0 ${meta.iconColor}">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <div class="flex items-center gap-2">
+                                <span class="text-[11px] font-extrabold px-2.5 py-0.5 rounded-lg border ${meta.badgeClass} shrink-0">${meta.label}</span>
+                                <h5 class="text-sm sm:text-base font-extrabold text-slate-800 dark:text-slate-100 truncate" title="${escapeHTML(file.name)}">${escapeHTML(file.name)}</h5>
+                            </div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">الحجم: ${formatFileSize(file.size)}</p>
+                        </div>
+                    </div>
+
+                    <!-- حقل تاريخ الملف + أزرار التنزيل والطباعة والحذف البارزة -->
+                    <div class="flex flex-wrap items-center justify-between sm:justify-end gap-2.5 pt-3 xl:pt-0 border-t xl:border-t-0 border-slate-200/80 dark:border-slate-700">
+                        
+                        <!-- مكان تاريخ الملف -->
+                        <div class="flex items-center gap-2 bg-white dark:bg-slate-900 px-3 py-2 rounded-xl border border-sky-200 dark:border-slate-700 shadow-2xs">
+                            <label class="text-xs font-bold text-slate-500 dark:text-slate-400 shrink-0">تاريخ الملف:</label>
+                            <input type="date" value="${file.date || getTodayDateString()}" onchange="updateFileDate(${index}, this.value)" class="text-xs sm:text-sm font-bold bg-transparent text-slate-800 dark:text-slate-100 focus:outline-none">
+                        </div>
+
+                        <!-- أزرار التنزيل والطباعة والحذف -->
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <!-- زر تنزيل الملف البارز -->
+                            <button type="button" onclick="downloadStoredFile(${index})" class="px-4 py-2.5 rounded-xl bg-gradient-to-l from-sky-600 to-blue-600 hover:from-sky-700 hover:to-blue-700 text-white text-xs sm:text-sm font-extrabold shadow-sm hover:shadow-md flex items-center gap-2 transition-all active:scale-95" title="تنزيل الملف إلى جهازك">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                </svg>
+                                <span>تنزيل الملف</span>
+                            </button>
+
+                            <!-- زر طباعة الملف البارز -->
+                            <button type="button" onclick="printStoredFile(${index})" class="px-4 py-2.5 rounded-xl bg-gradient-to-l from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white text-xs sm:text-sm font-extrabold shadow-sm hover:shadow-md flex items-center gap-2 transition-all active:scale-95" title="طباعة الملف مباشرة">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                                </svg>
+                                <span>طباعة الملف</span>
+                            </button>
+
+                            <!-- زر حذف الملف -->
+                            <button type="button" onclick="deleteStoredFile(${index})" class="p-2.5 rounded-xl bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/60 dark:hover:bg-rose-900/60 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800 transition-all active:scale-95" title="حذف الملف">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(row);
+            });
+        }
+
+        // رفع ملفات جديدة إلى المجلد المفتوح
+        async function handleFilesUpload(fileList) {
+            const folder = folders.find(f => f.id === activeFolderId);
+            if (!folder) return;
+
+            if (!folder.files) folder.files = [];
+
+            const remainingSlots = MAX_FILES_PER_FOLDER - folder.files.length;
+            if (remainingSlots <= 0) {
+                showToast('المجلد ممتلئ (الحد الأقصى 5 ملفات لكل مجلد)', true);
+                return;
+            }
+
+            const selectedFiles = Array.from(fileList);
+            let addedCount = 0;
+
+            for (const file of selectedFiles) {
+                if (folder.files.length >= MAX_FILES_PER_FOLDER) {
+                    showToast('تم الوصول للحد الأقصى (5 ملفات في المجلد)', true);
+                    break;
+                }
+
+                const meta = getFileTypeMeta(file.name);
+                if (!meta) {
+                    showToast(`الصيغة غير مدعومة: ${file.name}. يرجى اختيار Word أو Excel أو PDF`, true);
+                    continue;
+                }
+
+                try {
+                    const dataUrl = await readFileAsDataURL(file);
+                    folder.files.push({
+                        id: Date.now() + Math.random(),
+                        name: file.name,
+                        size: file.size,
+                        type: file.type,
+                        dataUrl: dataUrl,
+                        date: getTodayDateString()
+                    });
+                    addedCount++;
+                } catch (err) {
+                    showToast(`تعذر قراءة الملف: ${file.name}`, true);
+                }
+            }
+
+            if (addedCount > 0) {
+                await persistFolder(folder);
+                renderFolderFiles(folder);
+                renderFoldersGrid();
+                showToast(`تم حفظ ${addedCount} ${addedCount === 1 ? 'ملف' : 'ملفات'} بنجاح`);
+            }
+        }
+
+        // تحديث تاريخ الملف
+        async function updateFileDate(fileIndex, newDate) {
+            const folder = folders.find(f => f.id === activeFolderId);
+            if (!folder || !folder.files[fileIndex]) return;
+
+            folder.files[fileIndex].date = newDate;
+            await persistFolder(folder);
+            showToast('تم تحديث تاريخ الملف');
+        }
+
+        // تنزيل الملف الأصلي مباشرة بصيغته واسمه
+        function downloadStoredFile(fileIndex) {
+            const folder = folders.find(f => f.id === activeFolderId);
+            if (!folder || !folder.files[fileIndex]) return;
+
+            const file = folder.files[fileIndex];
+            try {
+                const blob = dataURLToBlob(file.dataUrl, file.type || 'application/octet-stream');
+                const blobUrl = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = blobUrl;
+                link.download = file.name;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
+                showToast(`جاري تنزيل الملف: ${file.name}`);
+            } catch (e) {
+                const link = document.createElement('a');
+                link.href = file.dataUrl;
+                link.download = file.name;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showToast(`جاري تنزيل الملف: ${file.name}`);
+            }
+        }
+
+        // طباعة الملف (PDF مباشرة عبر إطار طباعة مخفي موثوق بدون حظر النوافذ، وورقة A4 رسمية لملفات Word و Excel)
+        function printStoredFile(fileIndex) {
+            const folder = folders.find(f => f.id === activeFolderId);
+            if (!folder || !folder.files[fileIndex]) return;
+
+            const file = folder.files[fileIndex];
+            const meta = getFileTypeMeta(file.name) || {
+                ext: file.name.split('.').pop().toLowerCase(),
+                label: 'ملف',
+                fullLabel: 'مستند محفوظ'
+            };
+            const printFrame = document.getElementById('directPrintFrame');
+
+            // تنظيف أي رابط طباعة سابق
+            if (activePrintBlobUrl) {
+                URL.revokeObjectURL(activePrintBlobUrl);
+                activePrintBlobUrl = null;
+            }
+
+            if (meta.ext === 'pdf') {
+                try {
+                    const blob = dataURLToBlob(file.dataUrl, 'application/pdf');
+                    activePrintBlobUrl = URL.createObjectURL(blob);
+
+                    showToast('جاري تجهيز ملف PDF للطباعة...');
+
+                    printFrame.onload = () => {
+                        setTimeout(() => {
+                            try {
+                                printFrame.contentWindow.focus();
+                                printFrame.contentWindow.print();
+                            } catch (err) {
+                                // بديل في حال قيود المتصفح على إطار PDF
+                                const win = window.open(activePrintBlobUrl, '_blank');
+                                if (win) {
+                                    win.onload = () => {
+                                        win.focus();
+                                        win.print();
+                                    };
+                                } else {
+                                    showToast('تعذر فتح الطابعة تلقائياً، جاري تنزيل الملف...', true);
+                                    downloadStoredFile(fileIndex);
+                                }
+                            }
+                        }, 300);
+                    };
+
+                    printFrame.src = activePrintBlobUrl;
+                } catch (err) {
+                    showToast('حدث خطأ أثناء تجهيز PDF للطباعة', true);
+                }
+            } else {
+                // تجهيز ورقة معاينة وطباعة رسمية بتنسيق A4 لملفات Word و Excel مع إرسالها للطابعة مباشرة
+                const fileDate = file.date || getTodayDateString();
+                const printDate = getTodayDateString();
+
+                const a4Html = `
+                    <!DOCTYPE html>
+                    <html lang="ar" dir="rtl">
+                    <head>
+                        <meta charset="UTF-8">
+                        <title>طباعة وثيقة - ${escapeHTML(file.name)}</title>
+                        <style>
+                            @page {
+                                size: A4 portrait;
+                                margin: 18mm;
+                            }
+                            * {
+                                box-sizing: border-box;
+                            }
+                            body {
+                                font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+                                color: #0f172a;
+                                margin: 0;
+                                padding: 0;
+                                background: #ffffff;
+                                line-height: 1.7;
+                            }
+                            .a4-sheet {
+                                width: 100%;
+                                border: 2px solid #0284c7;
+                                border-radius: 12px;
+                                padding: 28px 32px;
+                            }
+                            .header {
+                                display: flex;
+                                align-items: center;
+                                justify-content: space-between;
+                                border-bottom: 2px solid #0284c7;
+                                padding-bottom: 16px;
+                                margin-bottom: 24px;
+                            }
+                            .header-title h1 {
+                                margin: 0;
+                                font-size: 24px;
+                                color: #0369a1;
+                            }
+                            .header-title p {
+                                margin: 4px 0 0;
+                                font-size: 13px;
+                                color: #475569;
+                            }
+                            .badge {
+                                background: #e0f2fe;
+                                color: #0369a1;
+                                border: 1px solid #7dd3fc;
+                                padding: 6px 14px;
+                                border-radius: 8px;
+                                font-weight: bold;
+                                font-size: 14px;
+                            }
+                            table.meta-table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                margin-bottom: 24px;
+                            }
+                            table.meta-table th,
+                            table.meta-table td {
+                                border: 1px solid #cbd5e1;
+                                padding: 12px 14px;
+                                text-align: right;
+                                font-size: 15px;
+                            }
+                            table.meta-table th {
+                                background-color: #f0f9ff;
+                                color: #0c4a6e;
+                                width: 30%;
+                                font-weight: bold;
+                            }
+                            .note-box {
+                                background: #f8fafc;
+                                border: 1px dashed #94a3b8;
+                                border-radius: 8px;
+                                padding: 14px 18px;
+                                font-size: 13px;
+                                color: #334155;
+                            }
+                            .footer {
+                                margin-top: 36px;
+                                padding-top: 12px;
+                                border-top: 1px solid #e2e8f0;
+                                display: flex;
+                                justify-content: space-between;
+                                font-size: 12px;
+                                color: #64748b;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="a4-sheet">
+                            <div class="header">
+                                <div class="header-title">
+                                    <h1>نظام حفظ الملفات</h1>
+                                    <p>بطاقة أرشفة وطباعة مستند رسمي (A4)</p>
+                                </div>
+                                <div class="badge">${escapeHTML(meta.label)}</div>
+                            </div>
+
+                            <table class="meta-table">
+                                <tr>
+                                    <th>اسم المجلد</th>
+                                    <td><strong>${escapeHTML(folder.name)}</strong></td>
+                                </tr>
+                                <tr>
+                                    <th>اسم الملف</th>
+                                    <td><strong>${escapeHTML(file.name)}</strong></td>
+                                </tr>
+                                <tr>
+                                    <th>نوع الملف</th>
+                                    <td>${escapeHTML(meta.fullLabel)}</td>
+                                </tr>
+                                <tr>
+                                    <th>تاريخ الملف</th>
+                                    <td><strong>${escapeHTML(fileDate)}</strong></td>
+                                </tr>
+                                <tr>
+                                    <th>حجم الملف</th>
+                                    <td>${formatFileSize(file.size)}</td>
+                                </tr>
+                            </table>
+
+                            <div class="note-box">
+                                <strong>ملاحظة:</strong> تم إصدار ورقة البيانات الرسمية هذه من نظام <strong>حفظ الملفات</strong>. لطباعة المحتوى الداخلي القابل للتحرير لملفات Word أو Excel، يمكنك استخدام زر <strong>"تنزيل الملف"</strong> وفتحه مباشرة عبر البرنامج المكتبي الخاص به.
+                            </div>
+
+                            <div class="footer">
+                                <span>تاريخ الطباعة: ${escapeHTML(printDate)}</span>
+                                <span>حفظ الملفات</span>
+                            </div>
+                        </div>
+                    </body>
+                    </html>
+                `;
+
+                const doc = printFrame.contentWindow || printFrame.contentDocument;
+                const frameDoc = doc.document || doc;
+
+                printFrame.onload = () => {
+                    setTimeout(() => {
+                        try {
+                            printFrame.contentWindow.focus();
+                            printFrame.contentWindow.print();
+                        } catch (e) {
+                            showToast('تعذر فتح الطابعة، يرجى المحاولة مرة أخرى', true);
+                        }
+                    }, 200);
+                };
+
+                frameDoc.open();
+                frameDoc.write(a4Html);
+                frameDoc.close();
+                showToast('تم تجهيز ورقة الطباعة الرسمية A4');
+            }
+        }
+
+        // حذف ملف من المجلد
+        async function deleteStoredFile(fileIndex) {
+            const folder = folders.find(f => f.id === activeFolderId);
+            if (!folder || !folder.files[fileIndex]) return;
+
+            const deletedName = folder.files[fileIndex].name;
+            folder.files.splice(fileIndex, 1);
+            await persistFolder(folder);
+            renderFolderFiles(folder);
+            renderFoldersGrid();
+            showToast(`تم حذف الملف: ${deletedName}`);
+        }
+
+        /* ==================== 7. تأكيد حذف المجلد ==================== */
+        function askDeleteFolder(folderId) {
+            const folder = folders.find(f => f.id === folderId);
+            if (!folder) return;
+
+            pendingDeleteFolderId = folderId;
+            document.getElementById('confirmDeleteText').textContent = `هل أنت متأكد من حذف المجلد "${folder.name}" وجميع الملفات بداخله؟`;
+            const modal = document.getElementById('confirmDeleteModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeConfirmDeleteModal() {
+            pendingDeleteFolderId = null;
+            const modal = document.getElementById('confirmDeleteModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        /* ==================== 8. تهيئة التطبيق وربط الأحداث ==================== */
+        window.addEventListener('DOMContentLoaded', async () => {
+            initTheme();
+
+            await initStorage();
+            await loadAllFolders();
+            renderFoldersGrid();
+
+            // البحث الفوري
+            document.getElementById('searchInput').addEventListener('input', renderFoldersGrid);
+
+            // فتح نافذة إنشاء مجلد جديد
+            const createModal = document.getElementById('createFolderModal');
+            const newFolderInput = document.getElementById('newFolderNameInput');
+
+            document.getElementById('openCreateModalBtn').addEventListener('click', () => {
+                if (folders.length >= MAX_FOLDERS) {
+                    showToast('تم الوصول للحد الأقصى (200 مجلد)', true);
+                    return;
+                }
+                newFolderInput.value = '';
+                createModal.classList.remove('hidden');
+                createModal.classList.add('flex');
+                setTimeout(() => newFolderInput.focus(), 50);
+            });
+
+            document.getElementById('cancelCreateFolderBtn').addEventListener('click', () => {
+                createModal.classList.add('hidden');
+                createModal.classList.remove('flex');
+            });
+
+            newFolderInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    document.getElementById('confirmCreateFolderBtn').click();
+                }
+            });
+
+            document.getElementById('confirmCreateFolderBtn').addEventListener('click', async () => {
+                const name = newFolderInput.value.trim();
+                if (!name) {
+                    showToast('يرجى كتابة اسم المجلد أولاً', true);
+                    newFolderInput.focus();
+                    return;
+                }
+                if (folders.length >= MAX_FOLDERS) {
+                    showToast('تم الوصول للحد الأقصى (200 مجلد)', true);
+                    return;
+                }
+
+                const newFolder = {
+                    id: Date.now(),
+                    name: name,
+                    files: [],
+                    createdAt: new Date().toISOString()
+                };
+
+                await persistFolder(newFolder);
+                createModal.classList.add('hidden');
+                createModal.classList.remove('flex');
+                renderFoldersGrid();
+                showToast(`تم إنشاء المجلد "${name}"`);
+                // فتح المجلد مباشرة
+                openFolderDetails(newFolder.id);
+            });
+
+            // حفظ تعديل اسم المجلد
+            document.getElementById('saveFolderNameBtn').addEventListener('click', async () => {
+                const folder = folders.find(f => f.id === activeFolderId);
+                if (!folder) return;
+
+                const updatedName = document.getElementById('editFolderNameInput').value.trim();
+                if (!updatedName) {
+                    showToast('لا يمكن ترك اسم المجلد فارغاً', true);
+                    return;
+                }
+
+                folder.name = updatedName;
+                await persistFolder(folder);
+                renderFoldersGrid();
+                showToast('تم تعديل اسم المجلد بنجاح');
+            });
+
+            // زر حذف المجلد من داخل نافذة التفاصيل
+            document.getElementById('deleteFolderBtn').addEventListener('click', () => {
+                if (activeFolderId !== null) {
+                    askDeleteFolder(activeFolderId);
+                }
+            });
+
+            // أزرار نافذة تأكيد الحذف
+            document.getElementById('cancelDeleteBtn').addEventListener('click', closeConfirmDeleteModal);
+            document.getElementById('executeDeleteBtn').addEventListener('click', async () => {
+                if (pendingDeleteFolderId !== null) {
+                    const targetId = pendingDeleteFolderId;
+                    closeConfirmDeleteModal();
+                    await removeFolderFromStorage(targetId);
+                    if (activeFolderId === targetId) {
+                        closeFolderDetails();
+                    } else {
+                        renderFoldersGrid();
+                    }
+                    showToast('تم حذف المجلد بنجاح');
+                }
+            });
+
+            // إغلاق نافذة تفاصيل المجلد
+            document.getElementById('closeDetailsModalBtn').addEventListener('click', closeFolderDetails);
+
+            // اختيار ورفع الملفات + السحب والإفلات
+            const fileInput = document.getElementById('fileInput');
+            const selectFilesBtn = document.getElementById('selectFilesBtn');
+            const dropzone = document.getElementById('uploadDropzone');
+
+            selectFilesBtn.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', async (e) => {
+                if (e.target.files && e.target.files.length > 0) {
+                    await handleFilesUpload(e.target.files);
+                    fileInput.value = '';
+                }
+            });
+
+            dropzone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropzone.classList.add('border-sky-500', 'bg-sky-100/70', 'dark:bg-slate-800');
+            });
+
+            dropzone.addEventListener('dragleave', () => {
+                dropzone.classList.remove('border-sky-500', 'bg-sky-100/70', 'dark:bg-slate-800');
+            });
+
+            dropzone.addEventListener('drop', async (e) => {
+                e.preventDefault();
+                dropzone.classList.remove('border-sky-500', 'bg-sky-100/70', 'dark:bg-slate-800');
+                if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                    await handleFilesUpload(e.dataTransfer.files);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
